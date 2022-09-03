@@ -23,14 +23,28 @@ namespace BusinessLayer.Services
         }
         public async Task<IEnumerable<EmployeeInfo>> GetAllEmployeesAsync()
         {
-            var res = await _employeeRepository.GetAll();
-            return _mapper.Map<IEnumerable<EmployeeInfo>>(res);
+            try
+            {
+                var res = await _employeeRepository.GetAll();
+                return _mapper.Map<IEnumerable<EmployeeInfo>>(res);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task<EmployeeInfo> GetEmployeeByCodeAsync(string employeeCode)
         {
-            var result = await _employeeRepository.GetByCode(employeeCode);
-            return _mapper.Map<EmployeeInfo>(result);
+            try
+            {
+                var result = await _employeeRepository.GetByCode(employeeCode);
+                return _mapper.Map<EmployeeInfo>(result);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task<string> SaveEmployeeAsync(string value)

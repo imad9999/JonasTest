@@ -22,14 +22,28 @@ namespace BusinessLayer.Services
         }
         public async Task<IEnumerable<CompanyInfo>> GetAllCompaniesAsync()
         {
-            var res = await _companyRepository.GetAll();
-            return _mapper.Map<IEnumerable<CompanyInfo>>(res);
+            try
+            {
+                var res = await _companyRepository.GetAll();
+                return _mapper.Map<IEnumerable<CompanyInfo>>(res);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task<CompanyInfo> GetCompanyByCodeAsync(string companyCode)
         {
-            var result = await _companyRepository.GetByCode(companyCode);
-            return _mapper.Map<CompanyInfo>(result);
+            try
+            {
+                var result = await _companyRepository.GetByCode(companyCode);
+                return _mapper.Map<CompanyInfo>(result);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public async Task<string> SaveCompanyAsync(string value)
@@ -44,16 +58,23 @@ namespace BusinessLayer.Services
                 }
                 return "Error Occured: Failed to save compnay details";
             }
-            catch(Exception e)
+            catch (Exception e)
             {
-                return e.ToString();
+                throw e;
             }
         }
 
         public async Task<string> DeleteCompanyAsync(int id)
         {
-            var repositoryResponse = await _companyRepository.DeleteCompanyAsync(id);
-            return repositoryResponse.ToString();
+            try
+            {
+                var repositoryResponse = await _companyRepository.DeleteCompanyAsync(id);
+                return repositoryResponse.ToString();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

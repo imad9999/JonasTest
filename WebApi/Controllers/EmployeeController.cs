@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BusinessLayer.Model.Interfaces;
+using log4net;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,14 @@ namespace WebApi.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IMapper _mapper;
+        private readonly ILog _log;
 
-        public EmployeeController(IEmployeeService employeeService, IMapper mapper)
+
+        public EmployeeController(IEmployeeService employeeService, IMapper mapper, ILog log)
         {
             _employeeService = employeeService;
             _mapper = mapper;
+            _log = log;
         }
         public EmployeeController()
         {
@@ -27,26 +31,58 @@ namespace WebApi.Controllers
         }
         public async Task<IEnumerable<EmployeeDto>> GetAll()
         {
-            var items = await _employeeService.GetAllEmployeesAsync();
-            return _mapper.Map<IEnumerable<EmployeeDto>>(items);
+            try
+            {
+                var items = await _employeeService.GetAllEmployeesAsync();
+                return _mapper.Map<IEnumerable<EmployeeDto>>(items);
+            }
+            catch (Exception e)
+            {
+                _log.Debug(e.ToString());
+                throw e;
+            }
         }
 
         public async Task<EmployeeDto> Get(string employeeCode)
         {
-            var item = await _employeeService.GetEmployeeByCodeAsync(employeeCode);
-            return _mapper.Map<EmployeeDto>(item);
+            try
+            {
+                var item = await _employeeService.GetEmployeeByCodeAsync(employeeCode);
+                return _mapper.Map<EmployeeDto>(item);
+            }
+            catch (Exception e)
+            {
+                _log.Debug(e.ToString());
+                throw e;
+            }
         }
 
         public async Task<string> Post([FromBody] string value)
         {
-            var response = await _employeeService.SaveEmployeeAsync(value);
-            return response;
+            try
+            {
+                var response = await _employeeService.SaveEmployeeAsync(value);
+                return response;
+            }
+            catch (Exception e)
+            {
+                _log.Debug(e.ToString());
+                throw e;
+            }
         }
 
         public async Task<string> Put(int id, [FromBody] string value)
         {
-            var response = await _employeeService.SaveEmployeeAsync(value);
-            return response;
+            try
+            {
+                var response = await _employeeService.SaveEmployeeAsync(value);
+                return response;
+            }
+            catch (Exception e)
+            {
+                _log.Debug(e.ToString());
+                throw e;
+            }
         }
     }
 }
